@@ -25,7 +25,7 @@ export default function ShowAddDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose}>{t('Disline')}</Button>
+          <Button onClick={props.handleClose}>{t('Decline')}</Button>
           <Button onClick={props.handleOk} autoFocus>
             {t('Apply')}
           </Button>

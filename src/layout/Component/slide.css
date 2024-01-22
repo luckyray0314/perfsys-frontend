@@ -1,5 +1,6 @@
 .contentStyle {
     background-image: url("../../assets/images/background-top.png") ;
+    background-repeat: no-repeat;
     background-size: cover;
-    background-position-y: 200px;
+    box-shadow: 5px 5px 5px 5px grey;
 } 

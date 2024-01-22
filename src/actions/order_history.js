@@ -1,4 +1,5 @@
 import api from '../utils/api';
+import { setAlert } from './alert';
 import { ORDER_ERROR, GET_ORDERS_HISTORY,ADD_ORDER_HISTORY } from './types';
 
 /*

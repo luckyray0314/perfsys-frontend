@@ -24,14 +24,17 @@ import { Formik } from 'formik';
 // project import
 import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
+import { UseSelector } from '../../../../node_modules/react-redux/es/hooks/useSelector';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { login } from 'actions/auth';
 import { setEnvLanguage } from 'actions/auth';
+import ShowSnackbar from 'layout/Component/alert';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
+  const alertInfo = useSelector((state) => state.alert);
   const [checked, setChecked] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -125,9 +128,6 @@ const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
                   }
                   label={<Typography variant="h6">Keep me sign in</Typography>}
                 />
-                <Link variant="h6" component={RouterLink} to="" color="text.primary">
-                  Forgot Password?
-                </Link>
               </Stack>
             </Grid>
             <Grid item xs={12}>
@@ -137,17 +137,10 @@ const AuthLogin = ({ login, setEnvLanguage, isAuthenticated }) => {
                 </Button>
               </AnimateButton>
             </Grid>
-            <Grid item xs={12}>
-              <Divider>
-                <Typography variant="caption"> Login with</Typography>
-              </Divider>
-            </Grid>
-            <Grid item xs={12}>
-              <FirebaseSocial />
-            </Grid>
           </Grid>
         </form>
       </Formik>
+      <ShowSnackbar open={alertInfo[0]?.open} content={alertInfo[0]?.msg} type={alertInfo[0]?.alertType} /> 
     </>
   );
 };

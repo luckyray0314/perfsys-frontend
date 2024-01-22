@@ -8,8 +8,9 @@ import auth from './auth';
 import order from './order';
 import factory from './factory';
 import customer from './customer';
-import owner from './owner'
-import ordershistory from './order_history'
+import owner from './owner';
+import sample from './sample'
+import ordershistory from './order_history';
 import satistics from './satistics';
 
 // ==============================|| COMBINE REDUCERS ||============================== //
@@ -22,6 +23,7 @@ export default combineReducers({
     factory,
     customer,
     owner,
+    sample,
     ordershistory,
     satistics
 });

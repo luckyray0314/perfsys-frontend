@@ -7,10 +7,11 @@ import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 
 // assets
 import { EditOutlined, ProfileOutlined, LogoutOutlined, UserOutlined, WalletOutlined } from '@ant-design/icons';
-
+import { useTranslation } from 'react-i18next';
 // ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
 
 const ProfileTab = ({ handleLogout }) => {
+  
   const theme = useTheme();
 
   const [selectedIndex, setSelectedIndex] = useState(0);

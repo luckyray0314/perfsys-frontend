@@ -7,6 +7,7 @@ import { loadUser } from 'actions/auth';
 import setAuthToken from 'utils/setAuthToken';
 import store from 'store/index';
 import { Provider } from 'react-redux';
+import { LOGOUT } from 'actions/types';
 // ==============================|| APP - THEME, ROUTER, LOCAL  ||============================== //
 
 const App = () => {

@@ -35,11 +35,22 @@ const barChartOptions = {
     }
   },
   yaxis: {
-    show: true
+    show: true,
+    min: 0,
+    max: 5,
+    tickAmount: 5,
+    axisBorder: {
+      show: true
+    },
   },
-  grid: {
-    show: false
-  }
+   grid: {
+      show: true,      // you can either change hear to disable all grids
+      yaxis: {
+        lines: { 
+          show: true  //or just here to disable only y axis
+         }
+       },   
+    },
 };
 
 // ==============================|| MONTHLY BAR CHART ||============================== //
@@ -62,7 +73,7 @@ const MonthlyBarChart = (props) => {
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
-      colors: [info],
+      colors: [secondary],
       xaxis: {
         categories: [`QC ${t("Score")}`, `${t("Claims")} ${t("Score")}`, t("ProcessScore")],
         labels: {
@@ -81,7 +92,7 @@ const MonthlyBarChart = (props) => {
   return (
     <div id="chart">
       {series.data}
-      <ReactApexChart options={options} series={series} type="bar" height={365} />
+      <ReactApexChart options={options} series={series} type="bar" height={365}/>
     </div>
   );
 };

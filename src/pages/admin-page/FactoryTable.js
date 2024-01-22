@@ -13,18 +13,21 @@ import { addFactory } from 'actions/factory';
 import { deleteFactory } from 'actions/factory';
 import { useSelector } from 'react-redux';
 import { connect } from 'react-redux';
+import DeleteModal from './DeleteModal';
 import { useTranslation } from 'react-i18next';
-const FactoryTable = ({getFactories, addFactory, deleteFactory}) => {
+const FactoryTable = ({ getFactories, addFactory, deleteFactory }) => {
   const { t } = useTranslation();
-  const factories_state = useSelector(state => state.factory.factories);
+  const factories_state = useSelector((state) => state.factory.factories);
   const [factories, setFactories] = React.useState(['']);
   const [checked, setChecked] = React.useState([0]);
+  const [open, setOpen] = React.useState(false);
+  const [factory_id, setFactory_Id] = React.useState();
   const [factoryData, setFactoryData] = React.useState({
     factory: '',
-    location:'',
+    location: '',
     employee: ''
   });
-  const {factory, location, employee} = factoryData;
+  const { factory, location, employee } = factoryData;
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -36,22 +39,35 @@ const FactoryTable = ({getFactories, addFactory, deleteFactory}) => {
     }
     setChecked(newChecked);
   };
-  const handleChange = (e) => setFactoryData({...factoryData, [e.target.name]: e.target.value });
-  
+  const handleChange = (e) => setFactoryData({ ...factoryData, [e.target.name]: e.target.value.trimEnd() });
+
   const handleClick = () => {
-    console.log("111111111111111111",factoryData)
     addFactory(factoryData);
-  }
+  };
   const handleDelete = (id) => {
-    deleteFactory(id);
-  }
-  React.useEffect (()=> {
+    setFactory_Id(id);
+    setOpen(true)
+  };
+  React.useEffect(() => {
     getFactories();
-  }, [getFactories])
-  React.useEffect (()=> {
+  }, [getFactories]);
+  React.useEffect(() => {
     setFactories(factories_state);
-  }, [factories_state])
-  
+  }, [factories_state]);
+  const handleEnter = (event) => {
+    if (event?.key !== 'Enter') {
+      return;
+    }
+    addFactory(factoryData);
+    setFactoryData({factory: ''});
+  };
+  const handleOk = () => {
+    deleteFactory(factory_id);
+    setOpen(false)
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Grid item xs={12} md={12} lg={12}>
@@ -62,7 +78,7 @@ const FactoryTable = ({getFactories, addFactory, deleteFactory}) => {
               <ListItem
                 key={factory_item}
                 secondaryAction={
-                  <IconButton edge="end" aria-label="comments" onClick = {(e) => handleDelete(factory_item._id)}>
+                  <IconButton edge="end" aria-label="comments" onClick={(e) => handleDelete(factory_item._id)}>
                     <DeleteIcon />
                   </IconButton>
                 }
@@ -77,19 +93,41 @@ const FactoryTable = ({getFactories, addFactory, deleteFactory}) => {
         </List>
       </Grid>
       <Grid item xs={12} md={8} lg={8}>
-        <TextField id="standard-basic" label={t('AddFactory')} type="search"  variant="standard" sx={{ margin: '0 5vw 10px 50px' }} name = 'factory' value = {factory} onChange = {handleChange} />
+        <TextField
+          id="standard-basic"
+          label={t('AddFactory')}
+          type="search"
+          variant="standard"
+          sx={{ margin: '0 5vw 10px 50px' }}
+          name="factory"
+          value={factory}
+          onKeyPress={handleEnter}
+          onChange={handleChange}
+        />
       </Grid>
       <Grid item xs={12} md={4} lg={4}>
-        <Button variant="contained" color="success" onClick={handleClick} startIcon={<PlaylistAddCircleIcon />}>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ backgroundColor: 'rgb(170,170,170)' }}
+          onClick={handleClick}
+          startIcon={<PlaylistAddCircleIcon />}
+        >
           {t('AddNew')}
         </Button>
       </Grid>
+      <DeleteModal
+        open = {open}
+        handleOk = {handleOk}
+        handleClose = {handleClose}
+        content = {t('DeleteFactory')}
+      />
     </Grid>
   );
-}
+};
 FactoryTable.propTypes = {
   getFactories: PropTypes.func.isRequired,
   addFactory: PropTypes.func.isRequired,
   deleteFactory: PropTypes.func.isRequired
-}
-export default connect(null, {getFactories, addFactory, deleteFactory})(FactoryTable);
+};
+export default connect(null, { getFactories, addFactory, deleteFactory })(FactoryTable);

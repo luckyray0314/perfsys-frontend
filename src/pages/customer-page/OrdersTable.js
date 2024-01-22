@@ -59,7 +59,6 @@ function stableSort(array, comparator) {
 
 function OrderTableHead({ order_h, orderBy }) {
   const { t } = useTranslation();
-  console.log('--------------------chinese translation------------------', t('Order'));
   const headCells = [
     {
       id: 'orderPO',
@@ -74,16 +73,16 @@ function OrderTableHead({ order_h, orderBy }) {
       label: t('Status')
     },
     {
-      id: 'customer',
-      align: 'center',
-      disablePadding: true,
-      label: t('Customer')
-    },
-    {
       id: 'factory',
       align: 'center',
       disablePadding: false,
       label: t('Factory')
+    },
+    {
+      id: 'customer',
+      align: 'center',
+      disablePadding: true,
+      label: t('Customer')
     },
     {
       id: 'owner',
@@ -92,16 +91,16 @@ function OrderTableHead({ order_h, orderBy }) {
       label: t('Owner')
     },
     {
-      id: 'orderCompletionDate',
-      align: 'center',
-      disablePadding: false,
-      label: t('OrderCompletionDate')
-    },
-    {
       id: 'readyDate',
       align: 'center',
       disablePadding: false,
       label: t('ReadyDate')
+    },
+    {
+      id: 'orderCompletionDate',
+      align: 'center',
+      disablePadding: false,
+      label: t('CompletionDate')
     },
     {
       id: 'operation',
@@ -112,6 +111,9 @@ function OrderTableHead({ order_h, orderBy }) {
   ];
   return (
     <TableHead>
+      <TableRow>
+        
+      </TableRow>
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
@@ -158,9 +160,9 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
   //--------------Open History Dialog-----------//
   const handleClickOpen_h = (orderID) => {
     setOpen_h(true);
-    console.log('aaa________', orderID);
+
   };
-  const handleClose_h = () => {
+  const handleClose_h = () => { 
     setOpen_h(false);
   };
   //--------------Open Update dialog-----------//
@@ -173,9 +175,10 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
     setOpen_u(false);
   };
   //--------------Open Complete dialog-----------//
-  const handleClickOpen_c = (orderID, userID) => {
+  const handleClickOpen_c = (orderID, userID, order) => {
     setOrderID(orderID);
     setUserId(userID);
+    setOrder(order);
     setOpen_c(true);
   };
   const handleClose_c = () => {
@@ -284,8 +287,8 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                     <TableCell align="center">{order.factory}</TableCell>
                     <TableCell align="center">{order.customer}</TableCell>
                     <TableCell align="center">{order.owner}</TableCell>
-                    <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                     <TableCell align="center">{order.readyDate?.split('T')[0]}</TableCell>
+                    <TableCell align="center">{order.completionDate?.split('T')[0]}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Order History">
                         <IconButton color="primary" onClick={() => onClickTableRow(order._id)}>
@@ -303,7 +306,7 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Completion Order">
-                        <IconButton color="success" onClick={() => handleClickOpen_c(order._id, order.userId)}>
+                        <IconButton color="success" onClick={() => handleClickOpen_c(order._id, order.userId, order)}>
                           <FactCheckIcon />
                         </IconButton>
                       </Tooltip>
@@ -316,7 +319,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
       </TableContainer>
       <ShowAddDialog
         open={open_d}
-        handleClickOpen={handleClickOpen_d}
         handleClose={handleClose_d}
         content={t('DeleteLetter')}
         handleOk={handleOk}
@@ -324,7 +326,6 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
       <ShowHistoryDialog
         open={open_h}
         data={orderHistory}
-        handleClickOpen={handleClickOpen_h}
         handleClose={handleClose_h}
       />
       <ShowUpdateDialog
@@ -336,15 +337,14 @@ const OrderTable = ({ getOrders, deleteOrder, getOrdersHistory, updateOrder, upd
         factories={factories}
         customers={customers}
         owners={owners}
-        handleClickOpen={handleClickOpen_u}
         handleClose={handleClose_u}
       />
       <ShowCompletionDialog
         open={open_c}
         id={orderID}
+        order = {order}
         userId={userId}
         updateScore={updateScore}
-        handleClickOpen={handleClickOpen_c}
         handleClose={handleClose_c}
       />
     </Box>

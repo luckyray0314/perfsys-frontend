@@ -12,7 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import i18n from 'i18n/index';
 // assets
 import { LogoutOutlined } from '@ant-design/icons';
-
+import { useTranslation } from 'react-i18next';
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -29,6 +29,7 @@ TabPanel.propTypes = {
 };
 
 const Profile = ({ auth: { isAuthenticated }, logout }) => {
+  const { t } = useTranslation();
   const anchorRef = useRef(null);
   const open = false;
   // const [open, setOpen] = useState(false);
@@ -49,10 +50,10 @@ const Profile = ({ auth: { isAuthenticated }, logout }) => {
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <FormControl sx={{ m: 1, minWidth: 120}} size="small">
-        <InputLabel id="demo-select-small-label">Select Language</InputLabel>
+        <InputLabel id="demo-select-small-label">{t("SelectLanguage")}</InputLabel>
         <Select labelId="demo-select-small-label" id="demo-select-small" value={language} label="Age" onChange={handleChange_l}>
-          <MenuItem value="en">English</MenuItem>
-          <MenuItem value="zh">Chinese</MenuItem>
+          <MenuItem value="en">{t("English")}</MenuItem>
+          <MenuItem value="zh">{t("Chinese")}</MenuItem>
         </Select>
       </FormControl>
 
@@ -73,7 +74,7 @@ const Profile = ({ auth: { isAuthenticated }, logout }) => {
         onClick={logout}
       >
         <LogoutOutlined />
-        &nbsp;&nbsp;&nbsp;&nbsp;LOGOUT
+        &nbsp;&nbsp;&nbsp;&nbsp;{t('Logout')}
       </ButtonBase>
     </Box>
   );

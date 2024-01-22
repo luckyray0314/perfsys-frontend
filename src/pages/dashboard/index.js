@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 // material-ui
 import {
   Grid,
@@ -8,7 +6,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import SatisticsPage from './SatisticsPage';
+import TotalSatistics from './TotalSatistics';
 import { useTranslation } from 'react-i18next';
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
@@ -20,12 +18,12 @@ const DashboardDefault = () => {
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">{t("IncomeOverview")}</Typography>
+            <Typography variant="h5">{t("SatisticsOverview")}</Typography>
           </Grid>
           <Grid item />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
-          <SatisticsPage/>
+          <TotalSatistics/>
         </MainCard>
       </Grid>
     </Grid>

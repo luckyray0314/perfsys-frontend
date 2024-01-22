@@ -16,18 +16,29 @@ import { useTranslation } from 'react-i18next';
 const ShowCompletionDialog = (props) => {
   const { t } = useTranslation();
   const [formData, setFormData] = React.useState({
-    qScore: '',
-    cScore: '',
-    pScore: ''
+    qScore: props.order.qScore,
+    cScore: props.order.cScore,
+    pScore: props.order.pScore
   });
   const { qScore, cScore, pScore } = formData;
   const handleChange = (e) => setFormData({...formData, [e.target.name]: e.target.value });
   const handleSubmit = async (e) => {
     e.preventDefault();
     await props.updateScore(props.id, props.userId, formData);
-    
+    setFormData({
+      qScore: '',
+      cScore: '',
+      pScore: ''
+    })
     props.handleClose();
   };
+  React.useEffect(() => {
+    setFormData({
+      qScore: props.order.qScore,
+      cScore: props.order.cScore,
+      pScore: props.order.pScore
+    });
+  }, [props.order]);
   return (
     <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
       <DialogTitle id="alert-dialog-title">{t("CompleteOrder")}</DialogTitle>
@@ -42,6 +53,7 @@ const ShowCompletionDialog = (props) => {
                   id="demo-simple-select"
                   name="qScore"
                   value={qScore}
+                  defaultValue={props.order.qScore}
                   label={`QC ${t('Score')}`}
                   onChange={handleChange}
                 >
@@ -81,6 +93,7 @@ const ShowCompletionDialog = (props) => {
                   id="demo-simple-select"
                   name="cScore"
                   value={cScore}
+                  defaultValue={props.order.cScore}
                   label={t('Claims')}
                   onChange={handleChange}
                 >
@@ -120,6 +133,7 @@ const ShowCompletionDialog = (props) => {
                   id="demo-simple-select"
                   name="pScore"
                   value={pScore}
+                  defaultValue={props.order.pScore}
                   label={t("ProcessScore")}
                   onChange={handleChange}
                 >
